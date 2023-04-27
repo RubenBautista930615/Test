@@ -31,6 +31,9 @@
         }
 </style>
 
+<h4 style="text-align:center">
+    Front-End
+</h4>
 <div class="container-fluid">
     <div class="row" style="margin-top:4rem;">
         <div class="col-md-9 col-lg-6 col-xl-5">
@@ -123,27 +126,35 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Usuarios</h5>
-            </div>
-            <div class="modal-body">
-                
-            </div>
-            <div class="modal-footer">
-               
-            </div>
-        </div>
-    </div>
-</div>
+
 <script>
     $(function () {
+        
+
+        $("#Email").on('focusout', function () {
+
+            let resultCorreo = true;
+
+            if (!(validateEmail($(this).val()))) {
+                resultCorreo = false;
+            }
+
+            if (!(resultCorreo)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    width: '45rem',
+                    confirmButtonColor: '#3345A1',
+                    text: 'Favor de ingresar un correo válido.'
+                });
+                $(this).val('');
+                return false;
+            }
+
+        });
 
         $("#BtnCerrarModal").on('click', function () {
-
+            $('#exampleModal').modal('hide');
         });
 
         $("#BtnPagar").on('click', function () {
@@ -192,7 +203,7 @@
             url: "https://jsonplaceholder.typicode.com/users",
             dataType: 'json',
             success: function (result) {
-                console.log(result);
+                //console.log(result);
                 $('#exampleModal').modal('show');
                 $("#Nombre").prop("disabled", true);
                 $("#Email").prop("disabled", true);
@@ -201,8 +212,8 @@
                 $("#BtnPagar").prop("disabled", true);
 
                 $.each(result, function (i, item) {
-                    console.log(item.name);
-                    console.log(item.username);
+                    //console.log(item.name);
+                    //console.log(item.username);
                     $('#myTable tbody').append('<tr style=" text-align: center;">' +
                         '<td>' + item.id + '</td>' +
                         '<td>' + item.name + '</td>' +
@@ -210,7 +221,7 @@
                         '<td>' + item.email + '</td>' +
                         '<td>' + item.phone + '</td>' +
                         '<td>' + item.website + '</td>' +
-                        '<td>' + item.address.city + ' ' + item.address.street + ' ' + item.address.suite + ' ' + item.addresszipcode + '</td>' +
+                        '<td>' + item.address.city + ' ' + item.address.street + ' ' + item.address.suite + ' ' + item.address.zipcode + '</td>' +
                         '<td>' + item.company.bs + ' ' + item.company.catchPhrase + ' ' + item.company.name + '</td>' +
                         '</tr> ');
 

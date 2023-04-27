@@ -1,0 +1,192 @@
+﻿@model Test.Models.Formulario
+
+<style>
+
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    .modal {
+        padding: 0 !important;
+    }
+
+        .modal .modal-dialog {
+            width: 100%;
+            max-width: none;
+            height: 100%;
+            margin: 0;
+        }
+
+        .modal .modal-content {
+            height: 100%;
+            border: 0;
+            border-radius: 0;
+        }
+
+        .modal .modal-body {
+            overflow-y: auto;
+        }
+</style>
+
+<h4 style="text-align:center">
+    Back-End
+</h4>
+
+@using (Html.BeginForm("Pagar","Formulario",FormMethod.Post, new
+{
+    id = "FormRegistro"
+}))
+{
+    @Html.AntiForgeryToken()
+    <div class="container-fluid">
+        <div class="row" style="margin-top:4rem;">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <label>Seleccione el número de participaciones.</label>
+                <label>Asegurese que los datos de rotulación coincidan con los datos de su identificación oficial.</label>
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                     class="img-fluid" alt="Sample image">
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-6">
+                <div class="row">
+                    <div class="col col-md-6 col-lg-6">
+                        @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col col-md-6 col-lg-6">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-md-12 col-lg-12">
+                        @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-md-12 col-lg-12">
+                        <div class="editor-label">
+                            <label>No.</label>
+                            @Html.DropDownListFor(model => model.No, (IEnumerable<SelectListItem>)ViewBag.No, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-md-12 col-lg-12" style="margin-top:3rem;">
+                        <button id="BtnPagar" type="submit" class="btn btn-primary btn-lg" style="width: inherit;">Pagar</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+<div id="exampleModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Users</h5>
+            </div>
+            <div class="modal-body">
+                <div style="overflow-x:auto;">
+                    <table id="myTable">
+                        <thead>
+                            <tr>
+                                <th style=" text-align: center;" scope="col">Id</th>
+                                <th style=" text-align: center;" scope="col">Name</th>
+                                <th style=" text-align: center;" scope="col">User</th>
+                                <th style=" text-align: center;" scope="col">Email</th>
+                                <th style=" text-align: center;" scope="col">Phone</th>
+                                <th style=" text-align: center;" scope="col">Website</th>
+                                <th style=" text-align: center;" scope="col">Address</th>
+                                <th style=" text-align: center;" scope="col">Company</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="BtnCerrarModal" type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+
+        if ('@TempData["success"]' != null)
+        {
+            if ('@TempData["success"]' == "true")
+            {
+                ObtenerUsuarios();
+              
+            }
+        }
+
+        $("#BtnCerrarModal").on('click', function () {
+            $('#exampleModal').modal('hide');
+        });
+
+    });
+
+     function ObtenerUsuarios() {
+        
+         $.ajax({
+            type: 'GET',
+             url: '/Formulario/ObtenerUsuarios',
+             dataType: 'json',
+             success: function SuccessCallback(listObjects) {
+
+                 console.log(listObjects.listObjects);
+
+                 $('#exampleModal').modal('show');
+                 $("#Nombre").prop("disabled", true);
+                 $("#Email").prop("disabled", true);
+                 $("#Telefono").prop("disabled", true);
+                 $("#No").prop("disabled", true);
+                 $("#BtnPagar").prop("disabled", true);
+
+                 $.each(listObjects.listObjects, function (i, item) {
+                     console.log(item);
+             
+                     $('#myTable tbody').append('<tr style=" text-align: center;">' +
+                         '<td>' + item.id + '</td>' +
+                         '<td>' + item.name + '</td>' +
+                         '<td>' + item.username + '</td>' +
+                         '<td>' + item.email + '</td>' +
+                         '<td>' + item.phone + '</td>' +
+                         '<td>' + item.website + '</td>' +
+                         '<td>' + item.address.city + ' ' + item.address.street + ' ' + item.address.suite + ' ' + item.address.zipcode + '</td>' +
+                         '<td>' + item.company.bs + ' ' + item.company.catchPhrase + ' ' + item.company.name + '</td>' +
+                         '</tr> ');
+
+                 });
+
+
+            },
+            error: function FailureCallback(register) {
+
+            }
+        });
+
+       
+
+    }
+</script>
+
+

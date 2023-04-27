@@ -5,6 +5,12 @@ VisualStudioVersion = 16.0.33423.256
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{C6EAF9C0-255B-4D96-A9C4-CC1A89387626}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{DD20DB15-0542-44C3-9BE7-BD6D6BD58389}"
+	ProjectSection(SolutionItems) = preProject
+		Query.sql = Query.sql
+		Tables.sql = Tables.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
