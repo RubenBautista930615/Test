@@ -52,14 +52,14 @@
                     <div class="col col-md-6 col-lg-6">
                         @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label" })
                         <div class="">
-                            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nombre completo" } })
                             @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="col col-md-6 col-lg-6">
                         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
                         <div class="">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email vigente" } })
                             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                     <div class="col col-md-12 col-lg-12">
                         @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label" })
                         <div class="">
-                            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control", @placeholder = "Teléfono a 10 dígitos"} })
                             @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -127,14 +127,19 @@
 
 <script>
 
-    $(function () {
+    $(async function () {
 
         if ('@TempData["success"]' != null)
         {
             if ('@TempData["success"]' == "true")
             {
-                ObtenerUsuarios();
-              
+                await ObtenerUsuarios();
+                $('#exampleModal').modal('show');
+                $("#Nombre").prop("disabled", true);
+                $("#Email").prop("disabled", true);
+                $("#Telefono").prop("disabled", true);
+                $("#No").prop("disabled", true);
+                $("#BtnPagar").prop("disabled", true);
             }
         }
 
@@ -144,25 +149,18 @@
 
     });
 
-     function ObtenerUsuarios() {
+     async function ObtenerUsuarios() {
         
-         $.ajax({
+         await $.ajax({
             type: 'GET',
              url: '/Formulario/ObtenerUsuarios',
              dataType: 'json',
              success: function SuccessCallback(listObjects) {
 
-                 console.log(listObjects.listObjects);
-
-                 $('#exampleModal').modal('show');
-                 $("#Nombre").prop("disabled", true);
-                 $("#Email").prop("disabled", true);
-                 $("#Telefono").prop("disabled", true);
-                 $("#No").prop("disabled", true);
-                 $("#BtnPagar").prop("disabled", true);
+                 //console.log(listObjects.listObjects);
 
                  $.each(listObjects.listObjects, function (i, item) {
-                     console.log(item);
+                     //console.log(item);
              
                      $('#myTable tbody').append('<tr style=" text-align: center;">' +
                          '<td>' + item.id + '</td>' +

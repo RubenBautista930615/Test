@@ -15,13 +15,13 @@ namespace Test.Models
         public int FormularioId { get; set; }
 
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Porfavor ingrese un nombre")]
+        [Required(ErrorMessage = "Por favor ingrese un nombre")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "No se permiten números")]
         [Display(Name = "Nombre *")]
         public string Nombre { get; set; }
 
         [DataType(DataType.EmailAddress)]
-        [Required(ErrorMessage = "Porfavor ingrese un email")]
+        [Required(ErrorMessage = "Por favor ingrese un email")]
         [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "El email no es válido")]
         [Display(Name = "Email *")]
         public string Email { get; set; }

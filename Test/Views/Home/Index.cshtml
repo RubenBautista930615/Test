@@ -48,7 +48,7 @@
                     <div class="editor-label">
                         <label>Nombre *</label>
                         <div class="editor-field">
-                            <input type="text" class="form-control Sololetras" id="Nombre" />
+                            <input type="text" class="form-control Sololetras" id="Nombre" placeholder = "Nombre completo" />
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     <div class="editor-label">
                         <label>Email *</label>
                         <div class="editor-field">
-                            <input type="text" class="form-control" id="Email" />
+                            <input type="text" class="form-control" id="Email" placeholder = "Email vigente" />
                         </div>
                     </div>
                 </div>
@@ -64,9 +64,9 @@
             <div class="row">
                 <div class="col col-md-12 col-lg-12">
                     <div class="editor-label">
-                        <label>Telefono *</label>
+                        <label>Teléfono *</label>
                         <div class="editor-field">
-                            <input type="text" class="form-control SoloNumeros" id="Telefono" maxlength="10" />
+                            <input type="text" class="form-control SoloNumeros" id="Telefono" maxlength="10" placeholder = "Teléfono a 10 dígitos"/>
                         </div>
                     </div>
                 </div>
@@ -133,6 +133,8 @@
 
         $("#Email").on('focusout', function () {
 
+            if ($(this).val() == '') { return;}
+
             let resultCorreo = true;
 
             if (!(validateEmail($(this).val()))) {
@@ -192,6 +194,10 @@
             }
 
             CallApi();
+
+            $("#Email").val('');
+            $("#Nombre").val('');
+            $("#Telefono").val('');
 
         });
 
